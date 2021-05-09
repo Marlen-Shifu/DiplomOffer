@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<title>Farm Shop</title>
+</head>
+<body>
+	<nav class="navbar">
+		<div class="container">
+			<div class="navbar__body">
+				<div class="navbar__logo"><a href="{% url 'home' %}">Farm Trade</a></div>
+				<div class="navbar__menu">
+					{% if request.user.is_authenticated %}
+						<ul class="navbar__username">
+							<li>
+								<a href="#">{{ request.user }}</a>
+								<ul>
+									<li><a href="{% url 'my_ads' %}">My ads</a></li>
+									<li><a href="{% url 'profile' %}">My profile</a></li>
+									<li><a href="{% url 'logout' %}">Exit</a></li>
+								</ul>
+							</li>
+						</ul>
+					{% else %}
+						<div class="navbar__log-in"><a href="{% url 'auth' %}">Log in</a></div>
+					{% endif %}
+					<div class="navbar__ad"><a href="{% url 'add_ad' %}">Put an ad</a></div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	{% block content %}
+	{% endblock %}
+
+	<footer class="footer">
+		<div class="container">
+			<div class="footer__body">
+				<div class="footer__copyright">
+					<p>© 2021 All rigths reserved “Farm Trade”</p>
+				</div>
+				<div class="footer__call">
+					<a href="tel: +77777777777">Phone number: 8(777)777-77-77</a>
+				</div>
+				<div class="footer__email">
+					<a href="mailto:yela.yela@yela.yela" target="_blank">email: yela.yela@yela.yela</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

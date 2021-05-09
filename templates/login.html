@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+	
+	{% block content %}
+	<section class="login">
+		<div class="container__login">
+			<div class="login__body">
+				<div class="login__tabs">
+					<nav class="login__tabs-items">
+						<a href="#login" class="login__tabs-item"><span>Log in</span></a>
+						<a href="#reg" class="login__tabs-item"><span>Create account</span></a>
+					</nav>
+					<div class="content-list__tabs-body">
+						<div id="login" class="login__tabs-block">
+							<form action="{% url 'auth_login' %}" method="POST" class="login__form">
+								{% csrf_token %}
+
+								{% if login_form %}
+								{% for field in login_form %}
+									<div class="login__username">
+										<label for="field.id_for_label">{{ field.label }}</label>
+										{{ field }}
+									</div>
+								{% endfor %}
+								{% else %}
+								{{ form }}
+								{% endif %}
+								
+								
+								<div class="login__enter">
+									<input type="submit" value="Enter">
+								</div>
+							</form>
+						</div>
+						<div id="reg" class="login__tabs-block">
+							<form action="{% url 'auth_reg' %}" method="POST" class="reg__form">
+
+								{% csrf_token %}
+
+								{{ user_form.errors }}
+								{{ profile_form.errors }}
+
+								{% for field in profile_form %}
+									<div class="reg__username">
+										<label id="{{ field.id_for_label }}">{{ field.label }}</label>
+										{{ field }}
+									</div>
+								{% endfor %}
+
+								{% for field in user_form %}
+									<div class="reg__username">
+										<label id="{{ field.id_for_label }}">{{ field.label }}</label>
+										{{ field }}
+									</div>
+								{% endfor %}
+
+								<div class="reg__enter">
+									<input type="submit" value="Create account">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}

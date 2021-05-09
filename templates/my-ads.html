@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+	{% block content %}
+	<section class="my-ad">
+		<div class="container">
+			<div class="my-ad__title">My ads</div>
+			<div class="my-ad__items">
+				{% for ad in object_list %}
+				<div class="adt__item">
+					<a href="{% url 'ad' ad.pk %}">
+					<img src="{{ ad.image.url }}" alt="" class="adt__image"></a>
+					<p class="adt__description">{{ ad.description_short }}</p>
+					<p class="adt__price">{{ ad.price }}$</p>
+					<div class="adt__buttons">
+						<form action="{% url 'ad_delete' ad.pk %}" method="POST">
+							{% csrf_token %}
+							<input type="submit" value="Delete" class="deleteAd"></input>
+						</form>
+						<a href="{% url 'ad_change' ad.pk %}">Edit</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	{% endblock %}

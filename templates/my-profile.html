@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+	{% block content %}
+	<section class="my-profile">
+		<div class="container">
+			<div class="my-profile__body">
+				<div class="my-info">
+					<div class="my-info__title"><h2>Your contact details:</h2></div>
+					<form class="my-info__view">
+						<div class="my-login">
+							<h3>Login:</h3>
+							<p class="my-login__login">{{ object.user.username }}</p>
+						</div>
+						<div class="my-name">
+							<h3>Name:</h3>
+							<p class="my-name__name">
+								{{ object.name }}
+							</p>
+						</div>
+						<div class="my-phone">
+							<h3>Phone number:</h3>
+							<p class="my-phone-phone">{{ object.phone_number }}</p>
+						</div>
+					</form>
+					<div class="my-info__title"><h2>Change contact details:</h2></div>
+					<form action="{% url 'profile' %}" method="POST" class="my-info__edit">
+						{% csrf_token %}
+						<div class="my-name__edit">
+							<label for="{{ form.name.id_for_label }}">Name:</label>
+							{{ form.name }}
+						</div>
+						<div class="my-phone__edit">
+							<label for="{{ form.phone_number.id_for_label }}">Phone number:</label>
+							{{ form.phone_number }}
+						</div>
+						<div class="my-info__buttons">
+							
+							<input type="submit" class="saveChanges" value="Save changes">
+						</div>
+					</form>
+					<form action="{% url 'profile_delete' %}" method="POST" id="delete_form" class="delete_form">
+						{% csrf_token %}
+						<input type="submit" class="deleteProfile" value="Delete profile">
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}

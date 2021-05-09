@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+	
+	{% block content %}
+	<section class="add-form">
+		<div class="container">
+			<h2 class="title-add">Add a new ad (or editing)</h2>
+			<div class="add-form__body">
+				<form action="{% if for_create %}{% url 'add_ad' %}{% else %}{% url 'ad_change' object.pk %}{% endif %}" method="POST" class="add-form__form" enctype="multipart/form-data">
+					{% csrf_token %}
+
+					{{ form.errors }}
+
+					<div class="add-title">
+						<label for="{{ form.title.id_for_label }}">Enter title:</label>
+						{{ form.title }}
+					</div>
+					<div class="add-category">
+						<label for="{{ form.category.id_for_label }}">Category:</label>
+						{{ form.category }}
+					</div>
+					<div class="add-subcategory">
+						<label for="{{ form.subcategory.id_for_label }}">Subcategory:</label>
+						{{ form.subcategory }}
+					</div>
+					<div class="add-price">
+						<label for="{{ form.price.id_for_label }}">Enter price:</label>
+						{{ form.price }}
+						<p class="value__price">$</p>
+					</div>
+					<div class="add-description">
+						<label for="{{ form.description.id_for_label }}">Description:</label>
+						{{ form.description }}
+					</div>
+					<div class="add-image">
+						<label for="{{ form.image.id_for_label }}">Image:</label>
+						{{ form.image }}
+					</div>
+					<div class="add-publish">
+						<label for="#" style="visibility: hidden;">Submit</label>
+						<input type="submit" class="publishBtn" value="Publish">
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	{% endblock %}

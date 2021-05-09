@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+	
+	{% block content %}
+	<section class="content-list">
+		<div class="container">
+			<div class="content-list__body">
+				<div class="content-list__tabs">
+					<nav class="content-list__tabs-items">
+						<a href="#farm-animals" class="content-list__tabs-item"><span>Farm animals</span></a>
+						<a href="#plants" class="content-list__tabs-item"><span>Plants</span></a>
+						<a href="#techniques" class="content-list__tabs-item"><span>Techniques</span></a>
+					</nav>
+					<div class="content-list__tabs-body">
+						<div id="farm-animals" class="content-list__tabs-block">
+							<ul>
+								{% for subcategory in category_farm.first.subcategory_set.all %}
+								<li>{{ subcategory.title }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div id="plants" class="content-list__tabs-block">
+							<ul>
+								{% for subcategory in category_plants.first.subcategory_set.all %}
+								<li>{{ subcategory.title }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div id="techniques" class="content-list__tabs-block">
+							<ul>
+								{% for subcategory in category_techniques.first.subcategory_set.all %}
+								<li>{{ subcategory.title }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="filter">
+		<div class="container">
+			<div class="filter__body">
+				<div class="filter-section">
+					<ul class="menu">
+						<li>
+					    <a href="/">Section</a>
+					    <ul>
+					      <li>
+					      	<a href="?category=farm animals">Farm animals</a>
+					      	<ul>
+					      		{% for subcategory in category_farm.first.subcategory_set.all %}
+									<li><a href="?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					      <li>
+					        <a href="?category=plants">Plant</a>
+					        <ul>
+					        	{% for subcategory in category_plants.first.subcategory_set.all %}
+									<li><a href="?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					      <li>
+					      	<a href="?category=techniques">Techniques</a>
+					      	<ul>
+					        	{% for subcategory in category_techniques.first.subcategory_set.all %}
+									<li><a href="?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					    </ul>
+					  </li>
+					</ul>
+				</div>
+				<form action="" class="filter-search">
+					<input type="search" placeholder="Search for..." class="filter-text" required="" name="search">
+					<input type="submit" value="Search" class="filter-button">
+				</form>
+			</div>
+		</div>
+	</section>
+	<section class="adt">
+		<div class="container">
+			<div class="adt__body">
+				<div class="adt__items">
+					{% for ad in object_list %}
+					<div class="adt__item">
+						<a href="{% url 'ad' ad.pk %}">
+						<img src="{{ ad.image.url }}" alt="" class="adt__image"></a>
+						<p class="adt__description">{{ ad.description_short }}</p>
+						<p class="adt__price">{{ ad.price }}$</p>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
