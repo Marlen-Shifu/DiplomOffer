@@ -1124,3 +1124,7 @@ input[type=search] {
     margin: 1px 0;
   }
 }
+
+.login{
+  flex-grow: 1;
+}
