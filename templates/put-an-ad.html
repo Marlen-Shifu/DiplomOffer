@@ -32,8 +32,8 @@
 						{{ form.description }}
 					</div>
 					<div class="add-image">
-						<label for="{{ form.image.id_for_label }}">Image:</label>
-						{{ form.image }}
+						<label for="">Images:</label>
+						<input type="file" name="images" multiple>
 					</div>
 					<div class="add-publish">
 						<label for="#" style="visibility: hidden;">Submit</label>
@@ -43,4 +43,36 @@
 			</div>
 		</div>
 	</section>
+
+	<script type="text/javascript"> 
+
+		let subcategoryChoice = document.querySelector('#id_subcategory');
+		subcategoryChoice.innerHTML = "";
+
+		let categorySelect = document.querySelector('#id_category');
+		categorySelect.addEventListener('change', getSubcategories);
+
+		async function getSubcategories() {
+			subcategoryChoice.innerHTML = "";
+			
+			let subcategories = await fetch('/c-s/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({'categoryId': categorySelect.selectedIndex})
+			});
+
+			let data = await subcategories.json();
+			console.log(data);
+
+			for (let subcategory of data.subcategories) {
+				let el = document.createElement('option');
+				el.value = subcategory.id;
+				el.innerHTML = "Subcategory " + subcategory.title + " of " + categorySelect.options[categorySelect.selectedIndex].text;
+				subcategoryChoice.append(el);
+			}
+		}
+
+	</script>
 	{% endblock %}

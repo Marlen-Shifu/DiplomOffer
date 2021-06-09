@@ -88,7 +88,7 @@
 					{% for ad in object_list %}
 					<div class="adt__item">
 						<a href="{% url 'ad' ad.pk %}">
-						<img src="{{ ad.image.url }}" alt="" class="adt__image"></a>
+						<img src="{{ ad.offerimage_set.first.image.url }}" alt="" class="adt__image"></a>
 						<p class="adt__description">{{ ad.description_short }}</p>
 						<p class="adt__price">{{ ad.price }}$</p>
 					</div>

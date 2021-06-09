@@ -46,8 +46,6 @@ class Offer(models.Model):
 
 	description = models.TextField()
 
-	image = models.ImageField(upload_to = 'images/')
-
 	user = models.ForeignKey(Profile, on_delete = models.CASCADE)
 
 	
@@ -61,3 +59,8 @@ class Offer(models.Model):
 
 	def __str__(self):
 		return 'Offer ' + str(self.title)
+
+
+class OfferImage(models.Model):
+	offer = models.ForeignKey(Offer, on_delete = models.CASCADE)
+	image = models.ImageField(upload_to = 'images/')

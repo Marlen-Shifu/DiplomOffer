@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+	{% block content %}
+	<section class="content-list">
+		<div class="container">
+			<div class="content-list__body">
+				<div class="content-list__tabs">
+					<nav class="content-list__tabs-items">
+						<a href="#farm-animals" class="content-list__tabs-item"><span>Farm animals</span></a>
+						<a href="#plants" class="content-list__tabs-item"><span>Plants</span></a>
+						<a href="#techniques" class="content-list__tabs-item"><span>Techniques</span></a>
+					</nav>
+					<div class="content-list__tabs-body">
+						<div id="farm-animals" class="content-list__tabs-block">
+							<ul>
+								<li>Camels</li>
+								<li>Horses</li>
+								<li>Cattles</li>
+								<li>Muttons</li>
+								<li>Birds</li>
+								<li>Camels</li>
+								<li>Horses</li>
+								<li>Cattles</li>
+								<li>Muttons</li>
+								<li>Birds</li>
+							</ul>
+						</div>
+						<div id="plants" class="content-list__tabs-block">
+							<ul>
+								<li>Camels</li>
+								<li>Horses</li>
+								<li>Cattles</li>
+								<li>Muttons</li>
+								<li>Birds</li>
+								<li>Camels</li>
+								<li>Horses</li>
+							</ul>
+						</div>
+						<div id="techniques" class="content-list__tabs-block">
+							<ul>
+								<li>Camels</li>
+								<li>Horses</li>
+								<li>Cattles</li>
+								<li>Muttons</li>
+								<li>Birds</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="filter">
+		<div class="container">
+			<div class="filter__body">
+				<div class="filter-section">
+					<ul class="menu">
+						<li>
+					    <a href="/">Section</a>
+					    <ul>
+					      <li>
+					      	<a href="/?category=farm animals">Farm animals</a>
+					      	<ul>
+					      		{% for subcategory in category_farm.first.subcategory_set.all %}
+									<li><a href="/?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					      <li>
+					        <a href="/?category=plants">Plant</a>
+					        <ul>
+					        	{% for subcategory in category_plants.first.subcategory_set.all %}
+									<li><a href="/?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					      <li>
+					      	<a href="/?category=techniques">Techniques</a>
+					      	<ul>
+					        	{% for subcategory in category_techniques.first.subcategory_set.all %}
+									<li><a href="/?subcategory={{ subcategory.title }}">{{ subcategory.title }}</a></li>
+								{% endfor %}
+					        </ul>
+					      </li>
+					    </ul>
+					  </li>
+					</ul>
+				</div>
+				<form action="" class="filter-search">
+					<input type="search" placeholder="Search for..." class="filter-text" required="" name="search">
+					<input type="submit" value="Search" class="filter-button">
+				</form>
+			</div>
+		</div>
+	</section>
+	<section class="inside">
+		<div class="container">
+			<div class="inside__body">
+				<div class="inside__title"><h2>Title:{{ object.title }}</h2></div>
+				<div class="inside__info">
+					<div class="inside__silder">
+						<div class="sliderContainer">
+							<div class="slider">
+								<div class="slider-line">
+									{% for image in object.offerimage_set.all %}
+									<a href="{{ image.image.url }}" target="blank" style="cursor: zoom-in;"><img src="{{ image.image.url }}" alt="{{ image.image.name }}"></a>
+									{% endfor %}
+								</div>
+								<button class="sliderBtn slider-prev"></button>
+								<button class="sliderBtn slider-next">></button>
+							</div>
+						</div>
+					</div>
+					<div class="inside__text-info">
+						<p class="contact-details"><h2>Contact details</h2></p>
+						<p class="name">Name: {{ object.user.name }}</p>
+						<p class="phone-number">Phone number: {{ object.user.phone_number }}</p>
+						<p class="price">Price: {{ object.price }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="similar">
+		<div class="container">
+			<div class="similar__body">
+				<div class="adv-description">
+					<p>{{ object.description }}</p>				
+				</div>
+				<div class="similar__main">
+					<h2>Similar ads</h2>
+					<div class="similar__items">
+						{% for ad in similar_ads %}
+						<div class="adt__item">
+							<a href="{% url 'ad' ad.pk %}">
+							<img src={{ ad.image.url }}" alt="" class="adt__image"></a>
+							<p class="adt__description">{{ ad.description_short }}</p>
+							<p class="adt__price">{{ ad.price }}$</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}

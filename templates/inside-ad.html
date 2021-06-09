@@ -102,7 +102,9 @@
 						<div class="sliderContainer">
 							<div class="slider">
 								<div class="slider-line">
-									<a href="{{ object.image.url }}" target="blank" style="cursor: zoom-in;"><img src="{{ object.image.url }}" alt=""></a>
+									{% for image in object.offerimage_set.all %}
+									<a href="{{ image.image.url }}" target="blank" style="cursor: zoom-in;"><img src="{{ image.image.url }}" alt="{{ image.image.name }}"></a>
+									{% endfor %}
 								</div>
 								<button class="sliderBtn slider-prev"></button>
 								<button class="sliderBtn slider-next">></button>
@@ -110,7 +112,7 @@
 						</div>
 					</div>
 					<div class="inside__text-info">
-						<p class="contact-details">Contact details: Lorem ipsum dolor sit amet consectetur adipisicing elit. Error harum, magni voluptas aspernatur voluptates, reiciendis, cupiditate aut pariatur soluta illo ea! Aliquid illum, modi quam possimus ullam quaerat sapiente, pariatur eveniet sed natus ipsa expedita iure? Laboriosam, iure, magni! Eos optio beatae, rerum sed. Magni expedita consequatur, perferendis rem soluta?</p>
+						<p class="contact-details"><h2>Contact details</h2></p>
 						<p class="name">Name: {{ object.user.name }}</p>
 						<p class="phone-number">Phone number: {{ object.user.phone_number }}</p>
 						<p class="price">Price: {{ object.price }}</p>
@@ -131,7 +133,7 @@
 						{% for ad in similar_ads %}
 						<div class="adt__item">
 							<a href="{% url 'ad' ad.pk %}">
-							<img src="{{ ad.image.url }}" alt="" class="adt__image"></a>
+							<img src="{{ ad.offerimage_set.first.image.url }}" alt="" class="adt__image"></a>
 							<p class="adt__description">{{ ad.description_short }}</p>
 							<p class="adt__price">{{ ad.price }}$</p>
 						</div>

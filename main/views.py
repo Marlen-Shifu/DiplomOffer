@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 
+from django .http import JsonResponse
+
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -12,6 +14,12 @@ from django.contrib.auth import logout
 
 from .models import *
 from .forms import *
+
+import json
+
+from django.views.decorators.csrf import csrf_exempt
+
+from django.core.files.base import ContentFile
 
 
 class OfferListView(ListView):
@@ -100,13 +108,20 @@ def registration(request):
 class OfferCreateView(LoginRequiredMixin, CreateView):
 	template_name = "put-an-ad.html"
 	model = Offer
-	fields = ['title', 'category', 'subcategory', 'price', 'description', 'image']
+	fields = ['title', 'category', 'subcategory', 'price', 'description']
 	success_url = reverse_lazy('home')
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 		self.object.user = self.request.user.profile
 		self.object.save()
+
+		for f in self.request.FILES.getlist('images'):
+			data = f.read()
+			photo = OfferImage(offer=self.object)
+			photo.image.save(f.name, ContentFile(data))
+			photo.save()
+
 		return super().form_valid(form)
 
 	def get_context_data(self, **kwargs):
@@ -160,13 +175,22 @@ class UserOfferDetailView(LoginRequiredMixin, DetailView):
 class UserOfferUpdateView(LoginRequiredMixin, UpdateView):
 	model = Offer
 	template_name = 'put-an-ad.html'
-	fields = ['title', 'category', 'subcategory', 'price', 'description', 'image']
+	fields = ['title', 'category', 'subcategory', 'price', 'description']
 	success_url = reverse_lazy('my_ads')
 
 	def get_context_data(self):
 		context = super().get_context_data()
 		context['for_create'] = False
 		return context
+	def form_valid(self, form):
+
+		for f in self.request.FILES.getlist('images'):
+			data = f.read()
+			photo = OfferImage(offer=self.object)
+			photo.image.save(f.name, ContentFile(data))
+			photo.save()
+
+		return super().form_valid(form)
 
 
 class UserOfferDeleteView(LoginRequiredMixin, DeleteView):
@@ -200,3 +224,12 @@ def logout_view(request):
 	logout(request)
 	return redirect('home')
 
+@csrf_exempt
+def get_category_subcategories(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		category_pk = data['categoryId']
+		subcategories = Subcategory.objects.filter(category__pk = category_pk).values()
+		return JsonResponse({'subcategories': list(subcategories)})
+	else:
+		return JsonResponse({'error': 'Invalid method'})

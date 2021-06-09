@@ -18,6 +18,7 @@ urlpatterns = [
 	path('profile/', ProfileView.as_view(), name = 'profile'),
 	path('profile/delete/', UserProfileDeleteView.as_view(), name = 'profile_delete'),
 	path('logout/', logout_view, name = 'logout'),
+	path('c-s/', get_category_subcategories, name = 'get_c_s'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
